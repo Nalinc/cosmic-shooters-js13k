@@ -1,0 +1,21 @@
+{
+  "name": "js13kserver",
+  "version": "0.0.1",
+  "description": "js13kgames game jam server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "js13kgames",
+    "server"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": "6.*"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.6"
+  }
+}
