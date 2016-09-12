@@ -20,7 +20,7 @@ function init(nick, shiptype) {
 		localPlayer = new Game.Player(nick,startX, startY, null, shiptype,'player');
 	camera = new Game.Camera(0, 0, canvas.width, canvas.height, room.width, room.height);		
 	camera.follow(localPlayer, canvas.width/2, canvas.height/2);
-	socket = io.connect('localhost:3000');
+	socket = io.connect(window.location.hostname);
 	remotePlayers = [];
 	setEventHandlers();
 	setInterval(function(){
