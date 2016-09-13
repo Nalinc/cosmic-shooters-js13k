@@ -27,18 +27,18 @@
 		<script type="text/javascript" src="src/Keys.js"></script>
 		<script type="text/javascript" src="src/Player.js"></script>
 		<script type="text/javascript" src="src/game.js"></script>
-		<div class="container" id="container">
+		<div class="container glitch_word_box" id="container">
 			<div class="inner-container">
-				<div class="heading">Cosmic Shooters</div>
-				<div class="title">Battleship</div>
+				<div class="heading glitch_word1" data-text="Cosmic Shooters">Cosmic Shooters</div>
+				<div class="title" data-text="Battleship">Battleship</div>
 				<div class="currentship">
 					<a href="#"><img id="current-ship" src="assets/battleship.png"/></a>
 				</div>
-				<div class="title">Nickname</div>
+				<div class="title" data-text="Nickname">Nickname</div>
 				<input type="text" id="nickname"></input>
-				<div class="play" id="play">Play</div>
+				<div class="play glitch_word1" id="play">Play</div>
 				<div class="controls">
-					<h2>Controls</h2>
+					<h2 data-text="Controls">Controls</h2>
 					<ul>
 						<li>Use Left/Right arrow to rotate</li>
 						<li>Up/Down to move</li>
@@ -48,9 +48,11 @@
 			</div>
 		</div>
 		<canvas id="gameCanvas" style="display:none"></canvas>
-		<div class="info" id="info">
-			Attacks: <span id="attacks">5</span> |
-			Deaths: <span id="deaths">3</span>
+		<div class="info glitch_word_box" id="info">
+			<div class="glitch_word1">
+				Attacks: <span id="attacks">5</span> |
+				Deaths: <span id="deaths">3</span>
+			</div>
 		</div>
 		<script type="text/javascript">
 			document.getElementsByTagName('body')[0].style['background-image'] = "url('"+window.starImage+"')";
