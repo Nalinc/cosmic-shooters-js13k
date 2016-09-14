@@ -1,5 +1,6 @@
-var canvas,room,camera,ctx,keys,localPlayer,bullet,quadTree,remotePlayers,socket;
+var canvas,room,camera,ctx,keys,localPlayer,bullet,quadTree,remotePlayers,socket,temp;
 function init(nick, shiptype) {
+	temp = document.getElementById("info").innerHTML;
 	sessionStorage.cosmicAttacks = sessionStorage.cosmicAttacks || 0;
 	sessionStorage.cosmicDeaths = sessionStorage.cosmicDeaths || 0;
 	canvas = document.getElementById("gameCanvas");
@@ -126,12 +127,30 @@ function detectCollision() {
 		quadTree.findObjects(obj = [], objects[x]);
 		for (y = 0, length = obj.length; y < length; y++) {
 			if(objects[x].type=='enemybullet'||obj[y].type=='enemybullet');
+
+			var objectNewX = objects[x].x;
+			var objectNewY = objects[x].y;
+			var objNewX = obj[y].x;
+			var objNewY = obj[y].y;
+			if(objects[x].type == "enemybullet" || objects[x].type == "playerbullet"){
+				if(camera.xView)
+					objectNewX += camera.xView;
+				if(camera.yView)
+					objectNewY += camera.yView;
+			}
+
+			if(obj[y].type == "enemybullet" || obj[y].type == "playerbullet"){
+				if(camera.xView)
+					objNewX += camera.xView;
+				if(camera.yView)
+					objNewY += camera.yView;				
+			}
 			if (objects[x].alive && obj[y].alive && 
 				objects[x].collidableWith === obj[y].type &&
-				(objects[x].x < obj[y].x + obj[y].width &&
-			     objects[x].x + objects[x].width > obj[y].x &&
-				 objects[x].y < obj[y].y + obj[y].height &&
-				 objects[x].y + objects[x].height > obj[y].y))
+				(objectNewX < objNewX + obj[y].width &&
+			     objectNewX + objects[x].width > objNewX &&
+				 objectNewY < objNewY + obj[y].height &&
+				 objectNewY + objects[x].height > objNewY))
 			{
 				if(objects[x].type=="playerbullet"||obj[y].type=="playerbullet")
 					sessionStorage.cosmicAttacks = parseInt(sessionStorage.cosmicAttacks) + 2;
@@ -147,8 +166,15 @@ function detectCollision() {
 				}
 				obj[y].alive = false;
 				obj[y].isColliding = true;
-				Game.createExplosion(obj[y].x, obj[y].y, "#525252");
-				Game.createExplosion(obj[y].x, obj[y].y, "#FFA318");
+
+				if(obj[y].type == "player" || obj[y].type == "enemybullet"){
+					Game.createExplosion(objects[x].x - camera.xView, objects[x].y - camera.yView, "#525252");
+					Game.createExplosion(objects[x].x - camera.xView, objects[x].y - camera.yView, "#FFA318");					
+				}
+				else if(obj[y].type == "enemy" || obj[y].type == "playerbullet"){
+					Game.createExplosion(obj[y].x - camera.xView, obj[y].y - camera.yView, "#525252");
+					Game.createExplosion(obj[y].x - camera.xView, obj[y].y - camera.yView, "#FFA318");
+				}
 			}
 		}
 	}
@@ -192,8 +218,14 @@ function draw() {
 			remotePlayers[i].draw(ctx,camera.xView, camera.yView);
 			remotePlayers[i].bulletPool.animate(ctx,camera.xView, camera.yView);
 	};
-	document.getElementById("attacks").innerHTML = sessionStorage.cosmicAttacks/2;
-	document.getElementById("deaths").innerHTML = sessionStorage.cosmicDeaths;
+	if(remotePlayers.length == 0){
+		document.getElementById("info").innerHTML = "Waiting for more players to join";
+	}
+	else{
+		document.getElementById("info").innerHTML = temp;
+		document.getElementById("attacks").innerHTML = sessionStorage.cosmicAttacks/2;
+		document.getElementById("deaths").innerHTML = sessionStorage.cosmicDeaths;		
+	}
 	detectCollision();
 };
 function playerById(id) {

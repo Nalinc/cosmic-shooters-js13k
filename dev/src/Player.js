@@ -22,8 +22,14 @@ var particles = [];
 		ctx.clearRect(this.x, this.y, this.width, this.height);
 		this.y -= this.speed * Math.cos(this.angle/180*Math.PI);
 		this.x += this.speed * Math.sin(this.angle/180*Math.PI);
-		if (this.y <= 0 - this.height)
+		console.log(this.x + ", " + this.y)
+		if (this.y <= 0 || 
+			this.y >= 3000 ||
+			this.x >= 5000 ||
+			this.x <= 0
+			){
 			return true;
+		}
 		else {
 			ctx.save();
 			ctx.fillStyle = '#ff0000';
@@ -206,21 +212,29 @@ var particles = [];
 		};
 		this.moveForward = function(){
 			if(this.y <= 34)
+				this.y = 3000 - 10;
+			if(this.y >= 3000)
 				this.y = 35;
 			else
-				this.y -= this.	moveAmount * Math.cos(this.angle/180*Math.PI);
-			if(this.x<=34)
-				this.x= 35;
+				this.y -= this.	moveAmount * Math.cos(this.angle/180*Math.PI);					
+			if(this.x <= 34)
+				this.x = 5000 - 10;
+			if(this.x >= 5000)
+				this.x = 35;
 			else
-				this.x += this.	moveAmount * Math.sin(this.angle/180*Math.PI);
+				this.x += this.	moveAmount * Math.sin(this.angle/180*Math.PI);			
 		};
 		this.moveBackward = function(){
 			if(this.y <= 34)
+				this.y = 3000 - 10;
+			if(this.y >= 3000)
 				this.y = 35;
 			else
 				this.y += this.	moveAmount * Math.cos(this.angle/180*Math.PI);
-			if(this.x<=34)
-				this.x= 35;
+			if(this.x <= 34)
+				this.x = 5000 - 10;
+			if(this.x >= 5000)
+				this.x = 35;
 			else
 				this.x -= this.	moveAmount * Math.sin(this.angle/180*Math.PI);
 		};
